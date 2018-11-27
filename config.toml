@@ -1,6 +1,6 @@
 baseURL = "https://weixinfree.github.io/blog/"
 languageCode = "zh-rCN"
-title = "理性的观察，有趣的探索"
+title = "Details makes perfect"
 
 theme = "ananke"
 themesDir = "themes"
