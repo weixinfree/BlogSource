@@ -46,7 +46,23 @@ public void demo() {
 ## 问题解答
 ### 1) 一个线程执行demo方法，内存分配情况？
 ### 2）堆和栈的内存布局
-![hh](./memory_layout.png)
+![hh](https://raw.githubusercontent.com/weixinfree/PickRepo/master/images/memory_layout.png)
+
+值得注意的有以下几点:
+
+1. int 是值类型，所以xm.age 存储的是直接值10
+2. String 是引用类型，所以xm.age是一个指向常量池（或者其它对象）的引用
+3. 成员变量也是分配在堆上的（并没有一个单独的存储变量的栈）
+4. 一个对象的实际大小和实现相关，例如可能需要额外的信息指向class，存储gc分代年龄等，为了效率考虑，可能还会有字节对齐
+5. 栈上会有一个局部变量数组，存储方法参数和局部变量
+6. 引用的大小是和实现相关的，一般在32位机器上是32位/4字节，64位机器上为64位/8字节
+7. 执行demo方法的时候，函数调用栈需要压入一个函数栈帧。函数调用栈负责代码的执行过程中中间变量的存储等，有更精细的结构，例如：堆栈虚拟机依赖的操作数栈
+
+
+#### 栈帧的细致结构
+![frame](https://raw.githubusercontent.com/weixinfree/PickRepo/master/images/frame.png)
+
+
 ### 3）内存分配大小
 
 ### 4）demo 方法是线程安全的吗？
