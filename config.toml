@@ -1,0 +1,34 @@
+baseURL = "https://weixinfree.github.io/blog/"
+languageCode = "zh-rCN"
+title = "理性的观察，有趣的探索"
+
+theme = "ananke"
+themesDir = "themes"
+
+MetaDataFormat = "yaml"
+DefaultContentLanguage = "zh-rCN"
+SectionPagesMenu = "main"
+Paginate = 3 # this is set low for demonstrating with dummy content. Set to a higher number
+googleAnalytics = ""
+enableRobotsTXT = true
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[params]
+  favicon = ""
+  description = "The last theme you'll ever need. Maybe."
+  facebook = ""
+  twitter = ""
+  instagram = ""
+  youtube = ""
+  github = "https://weixinfree.github.io/blog/"
+  gitlab = ""
+  linkedin = ""
+  # choose a background color from any on this page: http://tachyons.io/docs/themes/skins/ and preface it with "bg-"
+  background_color_class = "bg-black"
+  # featured_image = "/images/gohugo-default-sample-hero-image.jpg"
+  featured_image = "/images/holmes_center.jpg"
+  recent_posts_number = 2
