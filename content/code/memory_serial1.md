@@ -32,38 +32,20 @@ public void demo() {
 5. 三个线程执行demo方法，内存分配情况
 6. demo方法执行完成之后，那些内存可以回收？回收时机？
 
-> 暂
-
-> 停
-
-> 一
-
-> 小
-
-> 会
-
-> 儿
-
-> ,
-
-> 思
-
-> 考
-
-> 一
-
-> 下
+暂 停 一 小 会 儿 , 思 考 一 下
 
 ---
 
 ## 问题解答
-### 1) 一个线程执行demo方法，内存分配情况？
-### 2）堆和栈的内存布局
-### 3）内存分配大小
+1) 一个线程执行demo方法，内存分配情况？
+
+2）堆和栈的内存布局
+
+3）内存分配大小
 
 ![memory_layout](https://raw.githubusercontent.com/weixinfree/PickRepo/master/images/memory_layout.png)
 
-值得注意的有以下几点:
+##### 值得注意的有以下几点:
 
 1. int 是值类型，所以xm.age 存储的是直接值10
 2. String 是引用类型，所以xm.age是一个指向常量池（或者其它对象）的引用
@@ -75,10 +57,10 @@ public void demo() {
 8. 堆上的对象各个成员变量之间一般会是连续的
 9. 堆提供了一个连续的大块存储空间抽象，实际的物理内存因为虚拟内存分页的存在，物理上不是连续的（每页一般是4K）
 
-#### 栈帧的细致结构
+##### 栈帧的细致结构
 ![frame](https://raw.githubusercontent.com/weixinfree/PickRepo/master/images/frame.png)
 
-#### JVM 规范对Frame的介绍
+##### JVM 规范对Frame的介绍
 > 2.6 Frames
 
 > A frame is used to store data and partial results, as well as to perform dynamic
@@ -91,6 +73,8 @@ stack (§2.5.2) of the thread creating the frame. Each frame has its own array o
 local variables (§2.6.1), its own operand stack (§2.6.2), and a reference to the runtime
 constant pool (§2.5.5) of the class of the current method.
 
+大概意思如下:
+
 1. 每个frame在方法调用的时候创建，在方法结束的时候销毁
 2. frame由java线程stack管理
 3. 每个frame至少包含三部分:
@@ -101,7 +85,7 @@ constant pool (§2.5.5) of the class of the current method.
 5. 如果方法有n个参数，参数占据local var[1...n+1]
 6. 方法中定义的局部变量在 local var[n+2...]
 
-**so，demo方法的内存足迹是：** 
+#### demo方法的内存足迹是： 
 
 假设不考虑常量池，方法区和各个不同虚拟机的实现细节; 假设机器字长为64位
 
@@ -125,7 +109,7 @@ stack(16 + 30 + 8 = 54) + heap(4 + 8 = 12) = 66字节
 考虑到对象头，字节对齐，debug信息等等实现细节，量级应该在100字节左右。
 另一个值得注意的一点是，这种小方法，函数栈帧内存足迹远大于heap内存足迹
 
-### 4）demo 方法是线程安全的吗？
+#### 4）demo 方法是线程安全的吗？
 
 很多同学会立马回答: 肯定是非线程安全的，因为`xm.age += 10`不具有原子性。很不幸，这个回答其实是错的，并且至少犯了两个错误，请思考下面这两个问题：
 
@@ -142,11 +126,11 @@ stack(16 + 30 + 8 = 54) + heap(4 + 8 = 12) = 66字节
 
 同样的，只要有竞态条件，即使每一个操作都是原子的，也不能保证复合操作是原子性的，因此没有正确同步的方法，依然存在线程安全问题。
 
-**回到当前的问题，demo方式是线程安全的，因为没有静态变量。**
+回到当前的问题: **demo方式是线程安全的，因为没有静态变量。**
 
 不过可以继续思考一个有意思的问题，`xm.age += 10`不是原子性的，那么具体是几条指令呢？
 
-```java
+```bash
 public class Demo {
   public Demo();
     Code:
@@ -173,11 +157,11 @@ public class Demo {
 }
 ```
 
-如果不熟悉java字节码，可以阅读[基于栈的虚拟机](code/calc.md)
+如果不熟悉java字节码，可以阅读[基于栈的虚拟机](https://weixinfree.github.io/blog/code/calc/)
 
 可以看到语句：`xm.age += 10`至少可以拆解为下面6条指令，确实没有原子性。但这依然不妨碍这段代码的线程安全性
 
-```java
+```bash
 14: aload_1
 15: dup
 16: getfield      #6                  // Field Demo$Person.age:I
@@ -187,16 +171,15 @@ public class Demo {
 ```
 
 同样的，`xm.name = "小明";` 也是多条指令
-```java
+```bash
  8: aload_1
  9: ldc           #4                  // String 小明
 11: putfield      #5                  // Field Demo$Person.name:Ljava/lang/String;
 ```
 > 注意：不要错误的理解为每条jvm虚拟机指令都具有原子性的。
-
 > 原子性，可见性，有序性相关的问题，可以阅读Java语言规范，Java内存模型，JSR131，JST133等资料
 
-### 5）三个线程执行demo方法，内存分配情况
+#### 5）三个线程执行demo方法，内存分配情况
 
 三个线程执行和一个线程执行的情况类似，不同之处在于：
 
@@ -208,7 +191,7 @@ public class Demo {
 6. 没有线程安全问题，不会多分配对象，也不会少分配
 7. 总的内存足迹是 (stack(16 + 30 + 8 = 54) + heap(4 + 8 = 12) = 66) * 3，大概是300字节量级
 
-### 6）demo方法执行完成之后，那些内存可以回收？回收时机？
+#### 6）demo方法执行完成之后，那些内存可以回收？回收时机？
 
 1. 方法执行完成之后, 方法栈帧就可以销毁了。这个可以是立即销毁的，也可以由虚拟机实现决定，JVM标准并没有限制
 2. 堆上的Person对象因为没有了引用，也可以进行回收，但是因为GC是不确定的，所以回收时间是不确定的
