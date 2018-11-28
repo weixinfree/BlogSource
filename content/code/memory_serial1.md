@@ -2,6 +2,7 @@
 title: "内存分析系列之一-这么简单的代码你真的理解了吗?"
 date: 2018-11-26T14:01:55+08:00
 draft: false
+tags: ['java', '函数调用栈', 'JVM', 'Android', '基础', '线程']
 ---
 
 # Details makes perfect
