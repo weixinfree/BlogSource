@@ -1,10 +1,11 @@
 ---
 title: "基于栈的虚拟机"
 date: 2018-11-26T20:50:28+08:00
-draft: true
+draft: false
+tags: ['java','python','stack-base', 'vm', 'calc']
 ---
 
-java语言虚拟机的标准实现是基于栈的，jvm 规范定义的方法栈帧里还有一个专门的操作数栈。除了java之外，还有很多语言实现了基于栈的虚拟机，比如：python，Lua的早期版本应该也是基于栈的，后来为了执行效率考虑改为了基于寄存器的；此外还有stack-base语言例如forth，red等等。
+java语言虚拟机的标准实现是基于栈的，jvm 规范定义的方法栈帧里还有一个专门的操作数栈。除了java之外，还有很多语言实现了基于栈的虚拟机，比如：python，Lua的早期版本应该也是基于栈的，后来为了执行效率考虑改为了基于寄存器的虚拟机；此外还有stack-base语言例如forth，red等等。
 
 > 注意：虽然Android App开发使用java语言，但是Android的Dalvik和Art虚拟机，是基于寄存器的虚拟机
 
@@ -51,8 +52,6 @@ public class Demo {
 ```
 
 ```bash
-~/Downloads » javap -c Demo.class
-Compiled from "Demo.java"
 public class Demo {
   public Demo();
     Code:
@@ -72,16 +71,16 @@ public class Demo {
 解释: 
 `0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;`
 
-- 0 代表code偏移量, getstatic 需要一个字节表示字节码，2个字节表示参数，所以ldc的code偏移量为3
-- getstatic 代表java字节码指令 （获取一个静态变量）
-- #2 代表getstatic 需要的参数（class 常量池index），时机的value是：Field java/lang/System.out:Ljava/io/PrintStream;
+- 0 代表code偏移量, `getstatic` 需要一个字节表示字节码，2个字节表示参数，所以`ldc`的code偏移量为3
+- `getstatic` 代表java字节码指令 （获取一个静态变量）
+- `#2` 代表`getstatic` 需要的参数（class 常量池index），时机的value是：Field java/lang/System.out:Ljava/io/PrintStream;
 
 所以依据字节码解释main函数是：
 
-1.  pc 偏移量为0，执行 getstatic 参数为当前类的class常量池索引#2 (Field java/lang/System.out:Ljava/io/PrintStream;)，执行结果push到操作数栈中 （top = 0）
-2. pc 偏移量为3，执行ldc，加载常量，参数为常量池索引位置为 #2 (String hello world!)，将结果push到操作数栈（top = 2）
-3. pc 偏移量为5，执行 invokespecial，参数为常量池索引位置 #4(java/io/PrintStream.println:(Ljava/lang/String;)V)，并从操作数栈中弹出 1 作为参数，0作为objref，调用 objref.println("hello world!")
-4. pc 偏移量为8，执行return，方法结束，栈帧弹出
+1.  pc 偏移量为0，执行 `getstatic` 参数为当前类的class常量池索引`#2` (Field java/lang/System.out:Ljava/io/PrintStream;)，执行结果push到操作数栈中 （top = 0）
+2. pc 偏移量为3，执行`ldc`，加载常量，参数为常量池索引位置为 #2 (String hello world!)，将结果push到操作数栈（top = 2）
+3. pc 偏移量为5，执行 `invokespecial`，参数为常量池索引位置 #4(java/io/PrintStream.println:(Ljava/lang/String;)V)，并从操作数栈中弹出 1 作为参数，0作为objref，调用 objref.println("hello world!")
+4. pc 偏移量为8，执行`return`，方法结束，栈帧弹出
 
 
 ### Python 字节码例子
@@ -184,7 +183,7 @@ def do_op(op: str, stack: List):
     OP_MAP[op](stack)
 ```
 
-##### `unary_op`, `constant` 和 `binary_op`封装栈的操作的同时给出了非常清晰的语义
+##### unary_op, constant 和 binary_op封装栈的操作的同时给出了非常清晰的语义
 ```python
 def constant(value: float):
     def inner(stack: List[float]):

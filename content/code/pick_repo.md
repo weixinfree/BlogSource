@@ -1,10 +1,9 @@
 ---
 title: "Python+Github搭建免费，无限容量的markdown图床"
 date: 2018-11-27T16:39:18+08:00
-draft: true
+draft: false
+tags: ['python', 'github', '图床', 'partial', 'markdown']
 ---
-
-# Details makes perfect
 
 经常写markdown，图片的管理是一个不那么方便的事情。网络上的图片说不定那天就不能访问了；本地的图片显示更麻烦一些，和各个markdown编辑器的支持有关。
 
@@ -13,9 +12,10 @@ draft: true
 这对于追求效率，简洁，优美的程序员来说无法忍受。所以花了一点时间，使用python + github 搭建了一个免费的，无限容量的图床，而且还不用自己运维，需求方只有自己，需求变化不大。可谓理想中的完美的系统了。
 
 
-核心代码如下:
+#### 核心代码如下:
 
 ```python
+
 class PicRepo:
 
     def add(self, name: str, url: str = None):
@@ -42,9 +42,9 @@ class PicRepo:
 
 ```
 
-> `functools.partial`非常nice，结合`subprocess.check_call`调用shell，看起来就有一种美感
+`functools.partial`非常nice，结合`subprocess.check_call`调用shell，看起来就有一种美感
 
-使用requests进行下载网络图片：
+#### 使用requests进行下载网络图片：
 
 ```python
 def _download(url: str) -> str:
@@ -64,13 +64,13 @@ def _clear():
         os.remove(f)
 ```
 
-默认建立了一个顶层文件夹
+#### 默认建立了一个顶层文件夹
 
 ```python
 BASE = Path(__file__).parent / 'images'
 ```
 
-import 如下：
+#### import 如下：
 
 ```python
 import requests
@@ -82,9 +82,9 @@ from subprocess import check_call
 from functools import partial
 ```
 
-> for human 的requests 和 Path
+使用了 for human 的requests 和 Path
 
-还有非常nice的google Fire:
+#### 还有非常nice的google Fire:
 ```python
 if __name__ == "__main__":
     import fire
