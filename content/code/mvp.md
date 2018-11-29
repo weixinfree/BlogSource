@@ -2,6 +2,7 @@
 title: "对MVP的理解"
 date: 2018-11-28T20:07:39+08:00
 draft: true
+tags: ['mvp']
 ---
 
 
