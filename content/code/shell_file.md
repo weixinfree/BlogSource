@@ -1,8 +1,11 @@
 ---
-title: "Tiff图片格式"
+title: "终端生产力-file 命令"
 date: 2018-11-26T20:49:00+08:00
 draft: true
 ---
+
+# A knife and your job
+
 
 **bug 现象：**
 
